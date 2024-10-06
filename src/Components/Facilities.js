@@ -3,19 +3,19 @@ import { Box, Typography, Grid, Modal, Container, Button } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
 
 const images = [
-    { src: "/facilities/atakoy-hastanesi.jpg", desc: "Ataköy / Istanbul" },
+    { src: "/Facilities/atakoy-hastanesi.jpg", desc: "Ataköy / Istanbul" },
     {
-        src: "/facilities/medicana-atasehir-hospital.jpg",
+        src: "/Facilities/medicana-atasehir-hospital.jpg",
         desc: "Ataşehir / Istanbul",
     },
     {
-        src: "/facilities/medicana-beylikduzu-hospital.jpg",
+        src: "/Facilities/medicana-beylikduzu-hospital.jpg",
         desc: "Beylikdüzü / Istanbul",
     },
-    { src: "/facilities/medicana-bursa-hospital.jpg", desc: "Bursa" },
-    { src: "/facilities/medicana-izmir-hospital.jpg", desc: "Izmir" },
+    { src: "/Facilities/medicana-bursa-hospital.jpg", desc: "Bursa" },
+    { src: "/Facilities/medicana-izmir-hospital.jpg", desc: "Izmir" },
     {
-        src: "/facilities/medicana-zincirlikuyu-hospital.jpg",
+        src: "/Facilities/medicana-zincirlikuyu-hospital.jpg",
         desc: "Zincirlikuyu / Istanbul",
     },
 ];
