@@ -56,7 +56,7 @@ const ServicesSlider = () => {
                 background: "linear-gradient(115deg, #093b6f 0%, #010912 100%)",
                 py: 6,
             }}
-            id='services'
+            id="services"
         >
             <Container maxWidth="xl">
                 <Typography variant="h4" color="white" fontWeight={700}>
@@ -127,7 +127,16 @@ const ServicesSlider = () => {
                                         height: 270,
                                     }}
                                 >
-                                    <Typography variant="h6" fontWeight={700}>
+                                    <Typography
+                                        variant="h6"
+                                        fontWeight={700}
+                                        sx={{
+                                            fontSize: {
+                                                xs: "1rem", 
+                                                sm: "1.25rem", 
+                                            },
+                                        }}
+                                    >
                                         {service.title}
                                     </Typography>
                                     <Stack direction="row" mt={1} gap={1}>
@@ -142,7 +151,10 @@ const ServicesSlider = () => {
                                             }}
                                         />
                                         <Typography
-                                            fontSize={18}
+                                            fontSize={{
+                                                xs: "0.875rem", 
+                                                sm: "1rem", 
+                                            }}
                                             fontWeight={500}
                                             letterSpacing={1.1}
                                             sx={{
