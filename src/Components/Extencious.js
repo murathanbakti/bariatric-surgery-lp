@@ -1,27 +1,41 @@
-import React, { useState, useEffect } from "react";
-import { Box, IconButton, Fab, Button } from "@mui/material";
+import React, { useState, useEffect, useCallback } from "react";
+import {
+    Box,
+    IconButton,
+    Fab,
+    Button,
+    Modal,
+    Typography,
+    TextField,
+} from "@mui/material";
 import WhatsAppIcon from "@mui/icons-material/WhatsApp";
 import ArrowUpwardIcon from "@mui/icons-material/ArrowUpward";
 import CallIcon from "@mui/icons-material/Call";
+import CloseIcon from "@mui/icons-material/Close";
 
 const Extencious = () => {
     const [showScrollTop, setShowScrollTop] = useState(false);
+    const [openModal, setOpenModal] = useState(true);
 
-    // Show/Hide the scroll-to-top button when scrolling down
-    useEffect(() => {
-        const handleScroll = () => {
-            if (window.scrollY > 300) {
-                setShowScrollTop(true);
-            } else {
-                setShowScrollTop(false);
-            }
-        };
-
-        window.addEventListener("scroll", handleScroll);
-        return () => window.removeEventListener("scroll", handleScroll);
+    const handleScroll = useCallback(() => {
+        setShowScrollTop(window.scrollY > 300);
     }, []);
 
-    const handleClick = () => {
+    useEffect(() => {
+        window.addEventListener("scroll", handleScroll);
+        return () => window.removeEventListener("scroll", handleScroll);
+    }, [handleScroll]);
+
+    const handleModalClose = useCallback(() => {
+        setOpenModal(false);
+        setTimeout(() => setOpenModal(true), 45000);
+    }, []);
+
+    const scrollToTop = useCallback(() => {
+        window.scrollTo({ top: 0, behavior: "smooth" });
+    }, []);
+
+    const handleClick = useCallback(() => {
         const targetElement = document.getElementById("footer-form");
         if (targetElement) {
             targetElement.scrollIntoView({
@@ -29,14 +43,7 @@ const Extencious = () => {
                 block: "center",
             });
         }
-    };
-
-    const scrollToTop = () => {
-        window.scrollTo({
-            top: 0,
-            behavior: "smooth",
-        });
-    };
+    }, []);
 
     return (
         <Box>
@@ -104,6 +111,75 @@ const Extencious = () => {
             >
                 Get a Consultation
             </Button>
+
+            {/* Modal for the Form */}
+            <Modal
+                open={openModal}
+                onClose={handleModalClose}
+                aria-labelledby="patient-form-modal"
+                aria-describedby="patient-form-modal-description"
+            >
+                <Box
+                    sx={{
+                        position: "absolute",
+                        top: "50%",
+                        left: "50%",
+                        transform: "translate(-50%, -50%)",
+                        bgcolor: "background.paper",
+                        borderRadius: "8px",
+                        boxShadow: 24,
+                        p: 4,
+                        maxWidth: "90%",
+                    }}
+                >
+                    <Button
+                        variant="contained"
+                        sx={{ position: "absolute", top: 5, right: 10 }}
+                        onClick={handleModalClose}
+                        color="error"
+                    >
+                        <CloseIcon />
+                    </Button>
+                    <Typography
+                        variant="h6"
+                        color="primary"
+                        sx={{ marginBottom: "20px" }}
+                    >
+                        If you are a patient, please fill out the form
+                    </Typography>
+                    <form>
+                        <TextField
+                            fullWidth
+                            label="Full Name"
+                            required
+                            variant="standard"
+                            sx={{ marginBottom: "16px" }}
+                        />
+                        <TextField
+                            fullWidth
+                            label="Email"
+                            required
+                            variant="standard"
+                            sx={{ marginBottom: "16px" }}
+                        />
+                        <TextField
+                            fullWidth
+                            label="Mobile No"
+                            required
+                            variant="standard"
+                            sx={{ marginBottom: "16px" }}
+                        />
+                        <Button
+                            type="submit"
+                            variant="contained"
+                            color="primary"
+                            fullWidth
+                        >
+                            Submit
+                        </Button>
+                    </form>
+                </Box>
+            </Modal>
         </Box>
     );
 };

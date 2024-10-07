@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useCallback, useState } from "react";
 import { Box, Typography, Grid, Modal, Container, Button } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
 
@@ -24,16 +24,17 @@ const Facilities = () => {
     const [open, setOpen] = useState(false);
     const [selectedImage, setSelectedImage] = useState(null);
 
-    const handleOpen = (image) => {
+    const handleOpen = useCallback((image) => {
         setSelectedImage(image);
         setOpen(true);
-    };
+    }, []);
 
-    const handleClose = () => {
+    const handleClose = useCallback(() => {
         setOpen(false);
         setSelectedImage(null);
-    };
+    }, []);
 
+    
     return (
         <Box sx={{ py: 4 }} id="our-facilities">
             <Container maxWidth={"xl"}>

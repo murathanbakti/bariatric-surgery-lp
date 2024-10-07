@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useCallback, useMemo, useState } from "react";
 import {
     Box,
     Typography,
@@ -25,46 +25,48 @@ const BMICalculator = () => {
     const theme = useTheme();
     const isTabletOrSmaller = useMediaQuery(theme.breakpoints.down("md"));
 
-    const calculateBMI = () => {
+    const calculateBMI = useCallback(() => {
         if (weight && height) {
             const heightInMeters = height / 100;
             const bmiValue = weight / (heightInMeters * heightInMeters);
             setBmi(bmiValue.toFixed(2));
         }
-    };
+    }, [weight, height]);
 
-    const getBMICategory = (bmi) => {
+    const bmiCategory = useMemo(() => {
         if (!bmi) return "";
         if (bmi < 18.5) return "Underweight";
         if (bmi >= 18.5 && bmi < 24.9) return "Healthy";
         if (bmi >= 25 && bmi < 29.9) return "Overweight";
         if (bmi >= 30 && bmi < 39.9) return "Obese";
         return "Severely Obese";
-    };
+    }, [bmi]);
 
-    const getIconForRow = (min, max, bmi) => {
-        if (!bmi) return "❌";
-        const parsedBMI = parseFloat(bmi);
-        if (min && max) {
-            return parsedBMI >= min && parsedBMI <= max ? "✅" : "❌";
-        } else if (min && !max) {
-            return parsedBMI >= min ? "✅" : "❌";
-        }
-        return "❌";
-    };
+    const getIconForRow = useCallback(
+        (min, max) => {
+            if (!bmi) return "❌";
+            const parsedBMI = parseFloat(bmi);
+            if (min && max) {
+                return parsedBMI >= min && parsedBMI <= max ? "✅" : "❌";
+            } else if (min && !max) {
+                return parsedBMI >= min ? "✅" : "❌";
+            }
+            return "❌";
+        },
+        [bmi]
+    );
 
     return (
         <Box
             sx={{
                 background: "linear-gradient(115deg, #093b6f 0%, #010912 100%)",
+                py: 4,
+                mb: 4,
             }}
-            py={4}
-            mb={4}
             id={"bmi-calculator"}
         >
             <Container maxWidth="xl">
                 <Grid container spacing={4}>
-                    {/* Image Section */}
                     <Grid item xs={12} md={6} height={"fit-content"}>
                         <Box
                             sx={{
@@ -84,7 +86,6 @@ const BMICalculator = () => {
                         </Box>
                     </Grid>
 
-                    {/* BMI Calculator Section */}
                     <Grid item xs={12} md={6}>
                         <Box
                             sx={{
@@ -159,8 +160,7 @@ const BMICalculator = () => {
                                                 <TableCell align="center">
                                                     {getIconForRow(
                                                         row.min,
-                                                        row.max,
-                                                        bmi
+                                                        row.max
                                                     )}
                                                 </TableCell>
                                             </TableRow>
@@ -222,8 +222,7 @@ const BMICalculator = () => {
                                         textAlign={"center"}
                                         fontWeight={700}
                                     >
-                                        BMI Result: {bmi} ({getBMICategory(bmi)}
-                                        )
+                                        BMI Result: {bmi} ({bmiCategory})
                                     </Typography>
                                 </Box>
                             )}
